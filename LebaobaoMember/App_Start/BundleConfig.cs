@@ -26,6 +26,12 @@ namespace LebaobaoMember
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            bundles.Add(new ScriptBundle("~/bundles/layuijs").Include(
+                "~/Content/lib/layui/layui.js",
+                "~/Content/js/xadmin.js"));
+            bundles.Add(new StyleBundle("~/Content/layuicss").Include(
+                "~/Content/css/font.css",
+                "~/Content/css/xadmin.css"));
         }
     }
 }
