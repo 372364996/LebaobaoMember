@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace LebaobaoMember.Controllers
 {
-    public class UserController : Controller
+    public class UserController : LebaobaoController
     {
         // GET: User
         public ActionResult Index()
@@ -15,7 +15,8 @@ namespace LebaobaoMember.Controllers
         }
         public ActionResult UserList()
         {
-            return View();
+          var data=  _db.Users.ToList();
+            return View(data);
         }
         public ActionResult UserDel()
         {
