@@ -49,6 +49,11 @@ namespace LebaobaoComponents.Domains
         /// </summary>
         public int UserTypeId { get; set; }
 
+        /// <summary>
+        /// 用户状态
+        /// </summary>
+        public UserStatus UserStatus { get; set; }
+
         public virtual List<Orders> Orders { get; set; }
         public virtual UserType UserType { get; set; }
     }

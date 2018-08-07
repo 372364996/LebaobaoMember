@@ -1,4 +1,4 @@
-﻿@model List<LebaobaoComponents.Domains.Users>
+﻿@model PagedList<LebaobaoComponents.Domains.Users>
 @{
     ViewBag.Title = "会员列表";
 }
@@ -27,7 +27,7 @@
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加用户','/user/useradd',600,400)"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：@Model.Count 条</span>
     </xblock>
     <table class="layui-table">
         <thead>
@@ -39,6 +39,7 @@
                 <th>用户名</th>
                 <th>孩子姓名</th>
                 <th>性别</th>
+                <th>手机号</th>
                 <th>地址</th>
                 <th>注册时间</th>
                 <th>最近消费时间</th>
@@ -49,53 +50,49 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
+                <tr>
 
-                <td>
-                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
-                        <i class="layui-icon">&#xe605;</i>
-                    </div>
-                </td>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.ChildName</td>
-                <td>@item.Sex</td>
-                <td>@item.Address</td>
-                <td>@item.CreateTime.ToString()</td>
-                <td>@item.LastTime.ToString()</td>
-                <td class="td-status">
-                    <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
-                </td>
-                <td class="td-manage">
-                    <a onclick="member_stop(this, '10001')" href="javascript:;" title="启用">
-                        <i class="layui-icon">&#xe601;</i>
-                    </a>
-                    <a title="编辑" onclick="x_admin_show('编辑', 'member-edit.html', 600, 400)" href="javascript:;">
-                        <i class="layui-icon">&#xe642;</i>
-                    </a>
-                    <a onclick="x_admin_show('修改密码', 'member-password.html', 600, 400)" title="修改密码" href="javascript:;">
-                        <i class="layui-icon">&#xe631;</i>
-                    </a>
-                    <a title="删除" onclick="member_del(this, '要删除的id')" href="javascript:;">
-                        <i class="layui-icon">&#xe640;</i>
-                    </a>
-                </td>
+                    <td>
+                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
+                            <i class="layui-icon">&#xe605;</i>
+                        </div>
+                    </td>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.ChildName</td>
+                    <td>@item.Sex</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Address</td>
+                    <td>@item.CreateTime.ToShortDateString()</td>
+                    <td>@item.LastTime.ToShortDateString()</td>
+                    <td class="td-status">
+                        <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
+                    </td>
+                    <td class="td-manage">
+                        <a onclick="member_stop(this, '10001')" href="javascript:;" title="消费记录">
+                            <i class="layui-icon">&#xe62d;</i>
+                        </a>
+                        <a title="编辑" onclick="x_admin_show('编辑', 'member-edit.html', 600, 400)" href="javascript:;">
+                            <i class="layui-icon">&#xe642;</i>
+                        </a>
+                        <a onclick="x_admin_show('修改密码', 'member-password.html', 600, 400)" title="修改密码" href="javascript:;">
+                            <i class="layui-icon">&#xe631;</i>
+                        </a>
+                        <a title="删除" onclick="member_del(this, '要删除的id')" href="javascript:;">
+                            <i class="layui-icon">&#xe640;</i>
+                        </a>
+                    </td>
 
-            </tr> }
+                </tr>}
 
         </tbody>
     </table>
-    <div class="page">
+
+    <div id="page" class="page">
         <div>
-            <a class="prev" href="">&lt;&lt;</a>
-            <a class="num" href="">1</a>
-            <span class="current">2</span>
-            <a class="num" href="">3</a>
-            <a class="num" href="">489</a>
-            <a class="next" href="">&gt;&gt;</a>
+            @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "index", CurrentPagerItemTemplate = "<span class=\"current\">{0}</span>", DisabledPagerItemTemplate = "<a>{0}</a>", FirstPageText = "<<", PrevPageText = "<", NextPageText = ">", LastPageText = ">>" })
         </div>
     </div>
-
 </div>
 <script>
     layui.use('laydate', function () {
@@ -159,10 +156,10 @@
     }
 </script>
 <script>
-var _hmt = _hmt || []; (function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();</script>
+    var _hmt = _hmt || []; (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>
 

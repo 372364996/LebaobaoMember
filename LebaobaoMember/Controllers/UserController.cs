@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Webdiyer.WebControls.Mvc;
 
 namespace LebaobaoMember.Controllers
 {
@@ -13,9 +14,9 @@ namespace LebaobaoMember.Controllers
         {
             return View();
         }
-        public ActionResult UserList()
+        public ActionResult UserList(int index=1)
         {
-          var data=  _db.Users.ToList();
+            var data = _db.Users.OrderBy(u=>u.Id).ToPagedList(index, 2);
             return View(data);
         }
         public ActionResult UserDel()
