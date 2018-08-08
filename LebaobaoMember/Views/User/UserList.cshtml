@@ -25,9 +25,9 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn layui-btn-danger" onclick="member_delall()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加用户','/user/useradd',600,400)"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：@Model.Count 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：@ViewBag.UserCount 条</span>
     </xblock>
     <table class="layui-table">
         <thead>
@@ -36,6 +36,7 @@
                     <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
                 </th>
                 <th>ID</th>
+                <th>会员类别</th>
                 <th>用户名</th>
                 <th>孩子姓名</th>
                 <th>性别</th>
@@ -58,9 +59,17 @@
                         </div>
                     </td>
                     <td>@item.Id</td>
+                    <td>@item.UserType.Description</td>
                     <td>@item.Name</td>
                     <td>@item.ChildName</td>
-                    <td>@item.Sex</td>
+                    @if (item.Sex == 0)
+                    {
+                        <td>男</td>
+                    }
+                    else
+                    {
+                        <td>女</td>
+                    }
                     <td>@item.Phone</td>
                     <td>@item.Address</td>
                     <td>@item.CreateTime.ToShortDateString()</td>
@@ -78,7 +87,7 @@
                         <a onclick="x_admin_show('修改密码', 'member-password.html', 600, 400)" title="修改密码" href="javascript:;">
                             <i class="layui-icon">&#xe631;</i>
                         </a>
-                        <a title="删除" onclick="member_del(this, '要删除的id')" href="javascript:;">
+                        <a title="删除" onclick="member_del(this, '@item.Id')" href="javascript:;">
                             <i class="layui-icon">&#xe640;</i>
                         </a>
                     </td>
@@ -109,49 +118,49 @@
         });
     });
 
-    /*用户-停用*/
-    function member_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
-
-            if ($(obj).attr('title') == '启用') {
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title', '停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!', { icon: 5, time: 1000 });
-
-            } else {
-                $(obj).attr('title', '启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!', { icon: 5, time: 1000 });
-            }
-
-        });
-    }
-
-    /*用户-删除*/
+    /*用户-禁用*/
     function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
+        layer.confirm('确认要禁用该用户吗？', function (index) {
             //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', { icon: 1, time: 1000 });
+            $.ajax({
+                url: '/user/userdelorreturn/',
+                type: 'POST',
+                data: { id: [id], operation:false},
+                dataType: 'json',
+                error: function () {
+                    alert('error');
+                },
+                success: function (res) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已禁用!', { icon: 1, time: 1000 });
+                }
+            });
+        
         });
     }
 
 
 
-    function delAll(argument) {
+    function member_delall(argument) {
 
         var data = tableCheck.getData();
 
         layer.confirm('确认要删除吗？' + data, function (index) {
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', { icon: 1 });
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.ajax({
+                url: '/user/userdelorreturn/',
+                type: 'POST',
+                data: { id: data, operation: false },
+                dataType: 'json',
+                error: function () {
+                    alert('error');
+                },
+                success: function (res) {
+                    layer.msg('已禁用', { icon: 1 });
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                }
+            });
+           
         });
     }
 </script>
