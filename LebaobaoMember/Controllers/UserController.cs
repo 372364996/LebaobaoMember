@@ -16,6 +16,11 @@ namespace LebaobaoMember.Controllers
         {
             return View();
         }
+        public ActionResult UserLevel(int index=1)
+        {
+            var userTypeList = _db.UserTypes.OrderByDescending(t=>t.Id).ToPagedList(index, 20);
+            return View(userTypeList);
+        }
         public ActionResult UserList(int index = 1)
         {
             var userList = _db.Users.Where(u => u.UserStatus == UserStatus.Ok);
@@ -36,10 +41,7 @@ namespace LebaobaoMember.Controllers
             return View();
         }
 
-        public ActionResult UserLevel()
-        {
-            return View();
-        }
+     
         #region Post请求
         /// <summary>
         /// 添加用户

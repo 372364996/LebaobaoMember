@@ -36,6 +36,7 @@ namespace LebaobaoComponents.Repositories.Default
 
         public DbSet<Users> Users { get; set; }
         public DbSet<Orders> Orders { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
     }
     public class UserMapping : EntityTypeConfiguration<Users>
     {
