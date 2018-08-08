@@ -1,6 +1,6 @@
 ﻿@model PagedList<LebaobaoComponents.Domains.Users>
 @{
-    ViewBag.Title = "已禁用会员列表";
+    ViewBag.Title = "已禁用会员";
 }
 
 <div class="x-nav">
@@ -23,7 +23,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量恢复</button>
+        <button class="layui-btn layui-btn-danger" onclick="member_retrunall()"><i class="layui-icon"></i>批量恢复</button>
         <span class="x-right" style="line-height:40px">共有数据：@ViewBag.UserCount 条</span>
     </xblock>
     <table class="layui-table">
@@ -107,25 +107,48 @@
     });
 
 
-    /*用户-删除*/
+    /*用户-恢复*/
     function member_return(obj, id) {
-        layer.confirm('确认要删除吗？',function(index){
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!',{icon:1,time:1000});
+        layer.confirm('确认要恢复吗？', function (index) {
+            //发异步恢复数据
+            $.ajax({
+                url: '/user/userdelorreturn/',
+                type: 'POST',
+                data: { id: [id], operation: true },
+                dataType: 'json',
+                error: function () {
+                    alert('error');
+                },
+                success: function (res) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已恢复!', { icon: 1, time: 1000 });
+                }
+            });
         });
     }
 
 
 
-    function delAll (argument) {
+    function member_retrunall(argument) {
 
         var data = tableCheck.getData();
-  
-        layer.confirm('确认要恢复吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('恢复成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+
+        layer.confirm('确认要恢复吗？' + data, function (index) {
+            //捉到所有被选中的，发异步进行恢复
+            $.ajax({
+                url: '/user/userdelorreturn/',
+                type: 'POST',
+                data: { id: data, operation: true },
+                dataType: 'json',
+                error: function () {
+                    alert('error');
+                },
+                success: function (res) {
+                    layer.msg('已恢复', { icon: 1 });
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                }
+            });
+
         });
     }
 </script>
