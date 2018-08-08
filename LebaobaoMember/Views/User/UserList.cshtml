@@ -72,8 +72,8 @@
                     }
                     <td>@item.Phone</td>
                     <td>@item.Address</td>
-                    <td>@item.CreateTime.ToShortDateString()</td>
-                    <td>@item.LastTime.ToShortDateString()</td>
+                    <td>@item.CreateTime.ToString()</td>
+                    <td>@item.LastTime.ToString()</td>
                     <td class="td-status">
                         <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
                     </td>
@@ -84,8 +84,8 @@
                         <a title="编辑" onclick="x_admin_show('编辑', 'member-edit.html', 600, 400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
-                        <a onclick="x_admin_show('修改密码', 'member-password.html', 600, 400)" title="修改密码" href="javascript:;">
-                            <i class="layui-icon">&#xe631;</i>
+                        <a onclick="x_admin_show('添加记录', '/order/orderaddview?userid=@item.Id', 600, 400)" title="添加记录" href="javascript:;">
+                            <i class="layui-icon">&#xe654;</i>
                         </a>
                         <a title="删除" onclick="member_del(this, '@item.Id')" href="javascript:;">
                             <i class="layui-icon">&#xe640;</i>
