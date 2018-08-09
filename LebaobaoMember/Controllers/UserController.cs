@@ -37,6 +37,25 @@ namespace LebaobaoMember.Controllers
             var model = userList.OrderByDescending(u => u.Id).ToPagedList(index, 10);
             return View(model);
         }
+        public ActionResult ChargeList(string childname, string phone,int userid=0, int index = 1)
+        {
+            var chargeLogs = _db.ChargeLogs.ToList();
+            if (userid!=0)
+            {
+                chargeLogs = chargeLogs.Where(u => u.UserId==userid).ToList();
+            }
+            if (!string.IsNullOrEmpty(childname))
+            {
+                chargeLogs = chargeLogs.Where(u => u.User.ChildName.Contains(childname.Trim())).ToList();
+            }
+            if (!string.IsNullOrEmpty(phone))
+            {
+                chargeLogs = chargeLogs.Where(u => u.User.Phone.Contains(phone.Trim())).ToList();
+            }
+            ViewBag.ChargeCount = chargeLogs.Count();
+            var model = chargeLogs.OrderByDescending(u => u.Id).ToPagedList(index, 10);
+            return View(model);
+        }
         public ActionResult UserDel(string name, int index = 1)
         {
             var userList = _db.Users.Where(u => u.UserStatus == UserStatus.Disabled);

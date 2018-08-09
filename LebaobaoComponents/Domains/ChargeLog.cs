@@ -25,7 +25,6 @@ namespace LebaobaoComponents.Domains
         public int CanUseCount { get; set; }
         public DateTime CreateTime { get; set; }
         [StringLength(100)]
-        [Index("INDEX_PAY", IsUnique = true, Order = 0)]
         public string PayMethod { get; set; }
         [StringLength(200)]
         public string Description { get; set; }

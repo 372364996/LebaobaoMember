@@ -337,6 +337,7 @@
     <Content Include="Views\Order\OrderAddView.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\User\Charge.cshtml" />
+    <Content Include="Views\User\ChargeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

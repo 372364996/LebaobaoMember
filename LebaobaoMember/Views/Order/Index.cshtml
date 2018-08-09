@@ -17,50 +17,50 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="开始日" name="start" id="start">
-            <input class="layui-input" placeholder="截止日" name="end" id="end">
-            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        <form action="/order/index" method="get"  class="layui-form layui-col-md12 x-so">
+            <input type="text" name="childname" value="@Request["childname"]" placeholder="请输入孩子姓名" autocomplete="off" class="layui-input">
+            <input type="text" name="phone" value="@Request["phone"]" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-    <span class="x-right" style="line-height:40px">共有数据：@Model.Count 条</span>
+    <span class="x-right" style="line-height: 40px">共有数据：@Model.Count 条</span>
     <table class="layui-table">
         <thead>
-            <tr>
-                <th>
-                    <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-                </th>
-                <th>ID</th>
-                <th>家长姓名</th>
-                <th>孩子姓名</th>
-                <th>手机号</th>
-                <th>最近到访时间</th>
-            </tr>
+        <tr>
+            <th>
+                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i>
+                </div>
+            </th>
+            <th>ID</th>
+            <th>家长姓名</th>
+            <th>孩子姓名</th>
+            <th>手机号</th>
+            <th>到访时间</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-                    <td>
-                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
-                            <i class="layui-icon">&#xe605;</i>
-                        </div>
-                    </td>
-                    <td>@item.Id</td>
-                    <td>@item.User.Name</td>
-                    <td>@item.User.ChildName</td>           
-                    <td>@item.User.Phone</td>
-                    <td>@item.CreateTime.ToString()</td>
-                </tr>}
+                <td>
+                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
+                        <i class="layui-icon">&#xe605;</i>
+                    </div>
+                </td>
+                <td>@item.Id</td>
+                <td>@item.User.Name</td>
+                <td>@item.User.ChildName</td>
+                <td>@item.User.Phone</td>
+                <td>@item.CreateTime.ToString()</td>
+            </tr>}
 
         </tbody>
     </table>
 
     <div id="page" class="page">
         <div>
-            @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "index", CurrentPagerItemTemplate = "<span class=\"current\">{0}</span>", DisabledPagerItemTemplate = "<a>{0}</a>", FirstPageText = "<<", PrevPageText = "<", NextPageText = ">", LastPageText = ">>" })
+            @Html.Pager(Model, new PagerOptions {PageIndexParameterName = "index", CurrentPagerItemTemplate = "<span class=\"current\">{0}</span>", DisabledPagerItemTemplate = "<a>{0}</a>", FirstPageText = "<<", PrevPageText = "<", NextPageText = ">", LastPageText = ">>"})
         </div>
     </div>
 </div>

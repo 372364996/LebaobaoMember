@@ -1,0 +1,75 @@
+﻿@model PagedList<LebaobaoComponents.Domains.ChargeLog>
+@{
+    ViewBag.Title = "充值记录";
+}
+
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+        <a href="">后台首页</a>
+        <a href="">会员管理</a>
+        <a>
+            <cite>@ViewBag.Title</cite>
+        </a>
+    </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i>
+    </a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form action="/user/chargelist" method="get" class="layui-form layui-col-md12 x-so">
+            <input type="text" name="childname" value="@Request["childname"]" placeholder="请输入孩子姓名" autocomplete="off" class="layui-input">
+            <input type="text" name="phone" value="@Request["phone"]" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+
+    <span class="x-right" style="line-height:40px">共有数据：@ViewBag.ChargeCount 条</span>
+
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>
+                    <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+                </th>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>孩子姓名</th>
+                <th>手机号</th>
+                <th>充值金额</th>
+                <th>充值次数</th>
+                <th>充值时间</th>
+                <th>充值方式</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
+                            <i class="layui-icon">&#xe605;</i>
+                        </div>
+                    </td>
+                    <td>@item.Id</td>
+                    <td>@item.User.Name</td>
+                    <td>@item.User.ChildName</td>
+                    <td>@item.User.Phone</td>
+                    <td>@item.Money</td>
+                    <td>@item.CanUseCount</td>
+                    <td>@item.CreateTime.ToString()</td>
+                    <td>@item.PayMethod</td>
+                    <td>@item.Description</td>
+                </tr>}
+
+        </tbody>
+    </table>
+
+    <div id="page" class="page">
+        <div>
+            @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "index", CurrentPagerItemTemplate = "<span class=\"current\">{0}</span>", DisabledPagerItemTemplate = "<a>{0}</a>", FirstPageText = "<<", PrevPageText = "<", NextPageText = ">", LastPageText = ">>" })
+        </div>
+    </div>
+</div>

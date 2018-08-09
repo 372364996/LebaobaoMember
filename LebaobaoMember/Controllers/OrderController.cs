@@ -11,10 +11,24 @@ namespace LebaobaoMember.Controllers
     public class OrderController : LebaobaoController
     {
         // GET: Order
-        public ActionResult Index(string name, int index = 1)
+        public ActionResult Index(string childname, string phone, int userid = 0, int index = 1)
         {
-            var orderlist = _db.Orders.OrderByDescending(o => o.Id).ToPagedList(index, 20);
-            return View(orderlist);
+            var orderlist = _db.Orders.ToList();
+            if (userid != 0)
+            {
+                orderlist = orderlist.Where(o => o.UserId == userid).ToList();
+            }
+            if (!string.IsNullOrEmpty(childname))
+            {
+                orderlist = orderlist.Where(o => o.User.ChildName.Contains(childname.Trim())).ToList();
+            }
+            if (!string.IsNullOrEmpty(phone))
+            {
+                orderlist = orderlist.Where(o => o.User.Phone.Contains(phone.Trim())).ToList();
+            }
+            ViewBag.OrderCount = orderlist.Count();
+            var list = orderlist.OrderByDescending(o => o.Id).ToPagedList(index, 20);
+            return View(list);
         }
         public ActionResult OrderAddView(int userid)
         {
