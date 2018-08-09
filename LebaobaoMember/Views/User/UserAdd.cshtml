@@ -1,17 +1,18 @@
-﻿
+﻿@model LebaobaoComponents.Domains.Users
 @{
-    ViewBag.Title = "添加用户";
+    ViewBag.Title = Model==null?"添加用户":"修改用户";
 }
 
 <div class="x-body">
     <form class="layui-form">
+        <input type="hidden" value="@(Model == null ? "" : Model.Id.ToString())" name="userid"/>
         <div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
                 <span class="x-red">*</span>家长姓名
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_email" name="name" required="" lay-verify=""
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" value="@(Model == null ? "" : Model.Name)" class="layui-input">
             </div>
 
         </div>
@@ -20,8 +21,8 @@
                 <span class="x-red">*</span>孩子姓名
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username"  name="childname" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="L_username" name="childname" required="" lay-verify="nikename"
+                       autocomplete="off" value="@(Model == null ? "" : Model.ChildName)" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -30,9 +31,20 @@
             </label>
             <div class="layui-input-inline">
                 <select name="sex" lay-verify="">
-                    <option value="">请选择性别</option>
-                    <option value="0">男</option>
-                    <option value="1">女</option>
+                    @if (Model==null)
+                    {
+                        <option value="">请选择性别</option>
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    }
+                    else
+                    {
+
+                        <option value="">请选择性别</option>
+                        <option value="0" @(Model.Sex == 0 ? "selected" : "")>男</option>
+                        <option value="1"@(Model.Sex == 1 ? "selected" : "")>女</option>
+                    }
+
                 </select>
             </div>
         </div>
@@ -42,7 +54,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="number" id="L_username" name="phone" required="" lay-verify="phone|number"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" value="@(Model == null ? "" : Model.Phone)" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span class="x-red">*</span>将会成为您唯一的登入名
@@ -54,14 +66,14 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_username" name="address" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" value="@(Model == null ? "" : Model.Address)" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
             </label>
             <button class="layui-btn" lay-filter="add" lay-submit="">
-                增加
+                @(Model == null ? "增加" : "修改")
             </button>
         </div>
     </form>
@@ -100,7 +112,7 @@
                     alert('error');
                 },
                 success: function (obj) {
-                    layer.alert("增加成功", { icon: 6 }, function () {
+                    layer.alert("@(Model==null? "增加成功":"修改成功")", { icon: 6 }, function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
@@ -117,9 +129,9 @@
     });
 </script>
 <script>
-var _hmt = _hmt || []; (function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();</script>
+    var _hmt = _hmt || []; (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>

@@ -37,12 +37,12 @@ namespace LebaobaoMember.Controllers
             var model = userList.OrderByDescending(u => u.Id).ToPagedList(index, 10);
             return View(model);
         }
-        public ActionResult ChargeList(string childname, string phone,int userid=0, int index = 1)
+        public ActionResult ChargeList(string childname, string phone, int userid = 0, int index = 1)
         {
             var chargeLogs = _db.ChargeLogs.ToList();
-            if (userid!=0)
+            if (userid != 0)
             {
-                chargeLogs = chargeLogs.Where(u => u.UserId==userid).ToList();
+                chargeLogs = chargeLogs.Where(u => u.UserId == userid).ToList();
             }
             if (!string.IsNullOrEmpty(childname))
             {
@@ -64,9 +64,17 @@ namespace LebaobaoMember.Controllers
             return View(model);
         }
 
-        public ActionResult UserAdd()
+        public ActionResult UserAdd(int userid = 0)
         {
-            return View();
+            if (userid == 0)
+            {
+                return View();
+            }
+            else
+            {
+                var user = _db.Users.Find(userid);
+                return View(user);
+            }
         }
         public ActionResult Charge(int userid)
         {
@@ -83,21 +91,32 @@ namespace LebaobaoMember.Controllers
         [HttpPost]
         public JsonResult UserAdd(UserAddPostModel useraddpostmodel)
         {
+            Users user = new Users();
             try
             {
-                var user = new Users
+                if (useraddpostmodel.UserId == 0)
                 {
-                    Name = useraddpostmodel.Name,
-                    ChildName = useraddpostmodel.ChildName,
-                    Address = useraddpostmodel.Address,
-                    CreateTime = DateTime.Now,
-                    LastTime = DateTime.Now,
-                    Phone = useraddpostmodel.Phone,
-                    Sex = useraddpostmodel.Sex,
-                    UserStatus = UserStatus.Ok,
-                    UserTypeId = 1
-                };
-                _db.Users.Add(user);
+                    user.Name = useraddpostmodel.Name;
+                    user.ChildName = useraddpostmodel.ChildName;
+                    user.Address = useraddpostmodel.Address;
+                    user.CreateTime = DateTime.Now;
+                    user.LastTime = DateTime.Now;
+                    user.Phone = useraddpostmodel.Phone;
+                    user.Sex = useraddpostmodel.Sex;
+                    user.UserStatus = UserStatus.Ok;
+                    user.UserTypeId = 1;
+                    _db.Users.Add(user);
+                }
+                else
+                {
+                    user = _db.Users.Find(useraddpostmodel.UserId);
+                    user.Name = useraddpostmodel.Name;
+                    user.ChildName = useraddpostmodel.ChildName;
+                    user.Address = useraddpostmodel.Address;
+                    user.Phone = useraddpostmodel.Phone;
+                    user.Sex = useraddpostmodel.Sex;
+                }
+
                 _db.SaveChanges();
                 return Json(new { success = true });
             }

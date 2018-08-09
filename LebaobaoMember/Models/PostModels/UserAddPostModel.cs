@@ -7,6 +7,10 @@ namespace LebaobaoMember.Models.PostModels
 {
     public class UserAddPostModel
     {
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        public int UserId { get; set; }
         public string Name { get; set; }
         /// <summary>
         /// 孩子姓名
