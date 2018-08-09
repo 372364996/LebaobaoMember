@@ -17,17 +17,17 @@ namespace LebaobaoMember.Controllers
         {
             return View();
         }
-        public ActionResult UserLevel(int index=1)
+        public ActionResult UserLevel(int index = 1)
         {
-            var userTypeList = _db.UserTypes.OrderByDescending(t=>t.Id).ToPagedList(index, 20);
+            var userTypeList = _db.UserTypes.OrderByDescending(t => t.Id).ToPagedList(index, 20);
             return View(userTypeList);
         }
-        public ActionResult UserList(string childname,string phone,int index = 1)
+        public ActionResult UserList(string childname, string phone, int index = 1)
         {
             var userList = _db.Users.Where(u => u.UserStatus == UserStatus.Ok);
             if (!string.IsNullOrEmpty(childname))
             {
-                userList= userList.Where(u => u.ChildName.Contains(childname.Trim()));
+                userList = userList.Where(u => u.ChildName.Contains(childname.Trim()));
             }
             if (!string.IsNullOrEmpty(phone))
             {
@@ -101,14 +101,16 @@ namespace LebaobaoMember.Controllers
             {
                 var charge = new ChargeLog()
                 {
-                    Number=Utils.GetOrderNumber(),
-                    Money=chargepostmodel.Money,
-                    UserId=chargepostmodel.UserId,
-                    CanUseCount =chargepostmodel.CanUseCount,
+                    Number = Utils.GetOrderNumber(),
+                    Money = chargepostmodel.Money,
+                    UserId = chargepostmodel.UserId,
+                    CanUseCount = chargepostmodel.CanUseCount,
                     PayMethod = chargepostmodel.PayMethod,
-                    CreateTime = DateTime.Now
+                    CreateTime = DateTime.Now,
                 };
                 _db.ChargeLogs.Add(charge);
+                var user = _db.Users.Find(chargepostmodel.UserId);
+                user.CanUseCount += chargepostmodel.CanUseCount;
                 _db.SaveChanges();
                 return Json(new { success = true });
             }

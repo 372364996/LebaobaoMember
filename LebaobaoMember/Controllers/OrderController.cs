@@ -41,6 +41,7 @@ namespace LebaobaoMember.Controllers
                 _db.Orders.Add(order);
                 var user = _db.Users.Find(userid);
                 user.LastTime = DateTime.Now;
+                user.CanUseCount--;
                 _db.SaveChanges();
                 return Json(new { success = true });
             }

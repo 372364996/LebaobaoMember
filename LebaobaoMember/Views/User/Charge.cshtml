@@ -5,12 +5,13 @@
 
 <div class="x-body">
     <form class="layui-form">
+        <input type="hidden" name="userid" value="@Model.Id"/>
         <div class="layui-form-item">
             <label for="L_name" class="layui-form-label">
                 <span class="x-red"></span>家长姓名
             </label>
             <div class="layui-input-inline">
-                <input type="text"  id="L_name" name="name" required="" lay-verify=""
+                <input type="text" id="L_name" name="name" required="" lay-verify=""
                        autocomplete="off" readonly class="layui-input" value="@Model.Name">
             </div>
 
@@ -30,7 +31,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="number" id="L_money" name="money" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input"  value="">
+                       autocomplete="off" class="layui-input" value="">
             </div>
         </div>
         <div class="layui-form-item">
@@ -39,7 +40,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="number" id="L_canusercount" name="canusecount" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input"  value="">
+                       autocomplete="off" class="layui-input" value="">
             </div>
         </div>
         <div class="layui-form-item">
@@ -48,7 +49,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_paymethod" name="paymethod" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input"  value="">
+                       autocomplete="off" class="layui-input" value="">
             </div>
         </div>
         <div class="layui-form-item">
@@ -94,7 +95,7 @@
                     alert('error');
                 },
                 success: function (obj) {
-                    layer.alert("添加成功", { icon: 6 }, function () {
+                    layer.alert("充值成功", { icon: 6 }, function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
