@@ -48,12 +48,15 @@ namespace LebaobaoComponents.Domains
         /// 用户类别
         /// </summary>
         public int UserTypeId { get; set; }
-
+        /// <summary>
+        /// 可使用次数
+        /// </summary>
+        public int CanUseCount { get; set; }
         /// <summary>
         /// 用户状态
         /// </summary>
         public UserStatus UserStatus { get; set; }
-
+        public virtual List<ChargeLog> ChargeLogs { get; set; }
         public virtual List<Orders> Orders { get; set; }
         public virtual UserType UserType { get; set; }
     }

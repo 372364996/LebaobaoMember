@@ -37,6 +37,7 @@ namespace LebaobaoComponents.Repositories.Default
         public DbSet<Users> Users { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<ChargeLog> ChargeLogs { get; set; }
     }
     public class UserMapping : EntityTypeConfiguration<Users>
     {
@@ -45,6 +46,10 @@ namespace LebaobaoComponents.Repositories.Default
             ToTable("Users");
 
             HasMany(u => u.Orders)
+                .WithRequired(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .WillCascadeOnDelete(false);
+            HasMany(u => u.ChargeLogs)
                 .WithRequired(c => c.User)
                 .HasForeignKey(c => c.UserId)
                 .WillCascadeOnDelete(false);

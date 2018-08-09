@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domains\ChargeLog.cs" />
     <Compile Include="Domains\Orders.cs" />
     <Compile Include="Domains\Users.cs" />
     <Compile Include="Migrations\Configuration.cs" />

@@ -17,11 +17,12 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="开始日" name="start" id="start">
-            <input class="layui-input" placeholder="截止日" name="end" id="end">
-            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        <form action="/user/userlist" method="get"  class="layui-form layui-col-md12 x-so">
+            @*<input class="layui-input" placeholder="开始日" name="start" id="start">
+            <input class="layui-input" placeholder="截止日" name="end" id="end">*@
+            <input type="text" name="childname" value="@Request["childname"]" placeholder="请输入孩子姓名" autocomplete="off" class="layui-input">
+            <input type="text" name="phone" value="@Request["phone"]" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
     <xblock>
@@ -42,8 +43,8 @@
                 <th>性别</th>
                 <th>手机号</th>
                 <th>地址</th>
-                <th>注册时间</th>
-                <th>最近消费时间</th>
+                <th>剩余次数</th>
+                <th>最近到访时间</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
@@ -72,7 +73,7 @@
                     }
                     <td>@item.Phone</td>
                     <td>@item.Address</td>
-                    <td>@item.CreateTime.ToString()</td>
+                    <td>@item.CanUseCount</td>
                     <td>@item.LastTime.ToString()</td>
                     <td class="td-status">
                         <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
@@ -86,6 +87,9 @@
                         </a>
                         <a onclick="x_admin_show('添加记录', '/order/orderaddview?userid=@item.Id', 600, 400)" title="添加记录" href="javascript:;">
                             <i class="layui-icon">&#xe654;</i>
+                        </a>
+                        <a onclick="x_admin_show('充值', '/user/charge?userid=@item.Id', 600, 400)" title="充值" href="javascript:;">
+                            <i class="layui-icon">&#xe65e;</i>
                         </a>
                         <a title="删除" onclick="member_del(this, '@item.Id')" href="javascript:;">
                             <i class="layui-icon">&#xe640;</i>

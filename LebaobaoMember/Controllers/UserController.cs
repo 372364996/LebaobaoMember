@@ -1,4 +1,5 @@
 ﻿using LebaobaoComponents.Domains;
+using LebaobaoComponents.Helpers;
 using LebaobaoMember.Models.PostModels;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,17 @@ namespace LebaobaoMember.Controllers
             var userTypeList = _db.UserTypes.OrderByDescending(t=>t.Id).ToPagedList(index, 20);
             return View(userTypeList);
         }
-        public ActionResult UserList(int index = 1)
+        public ActionResult UserList(string childname,string phone,int index = 1)
         {
             var userList = _db.Users.Where(u => u.UserStatus == UserStatus.Ok);
+            if (!string.IsNullOrEmpty(childname))
+            {
+                userList= userList.Where(u => u.ChildName.Contains(childname.Trim()));
+            }
+            if (!string.IsNullOrEmpty(phone))
+            {
+                userList = userList.Where(u => u.Phone.Contains(phone.Trim()));
+            }
             ViewBag.UserCount = userList.Count();
             var model = userList.OrderByDescending(u => u.Id).ToPagedList(index, 10);
             return View(model);
@@ -40,8 +49,12 @@ namespace LebaobaoMember.Controllers
         {
             return View();
         }
+        public ActionResult Charge(int userid)
+        {
+            var user = _db.Users.Find(userid);
+            return View(user);
+        }
 
-     
         #region Post请求
         /// <summary>
         /// 添加用户
@@ -66,6 +79,36 @@ namespace LebaobaoMember.Controllers
                     UserTypeId = 1
                 };
                 _db.Users.Add(user);
+                _db.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Debug(ex.Message);
+                return Json(new { success = false });
+            }
+
+        }
+        /// <summary>
+        /// 充值
+        /// </summary>
+        /// <param name="chargepostmodel">请求参数实体</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Charge(ChargePostModel chargepostmodel)
+        {
+            try
+            {
+                var charge = new ChargeLog()
+                {
+                    Number=Utils.GetOrderNumber(),
+                    Money=chargepostmodel.Money,
+                    UserId=chargepostmodel.UserId,
+                    CanUseCount =chargepostmodel.CanUseCount,
+                    PayMethod = chargepostmodel.PayMethod,
+                    CreateTime = DateTime.Now
+                };
+                _db.ChargeLogs.Add(charge);
                 _db.SaveChanges();
                 return Json(new { success = true });
             }
