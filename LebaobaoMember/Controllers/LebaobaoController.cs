@@ -18,8 +18,30 @@ namespace LebaobaoMember.Controllers
         protected static ILog logger = LogManager.GetLogger(typeof(LebaobaoController));
         public LebaobaoDbContext _db = new LebaobaoDbContext();
         private Users user = null;
+        protected static string AppId = "wx74c6cc8e1fac314c";
+        protected static string AppSecret = "55c18246c2900a11227f05a35e76f1a5";
+        protected static string GetSessionKeyUrl = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
 
+        protected Users CurrentUser
+        {
+            get
+            {
+                if (user == null && !string.IsNullOrEmpty(Request["session_id"]))
+                {
+                    try
+                    {
+                        user = _db.Users.SingleOrDefault(u => u.OpenId == CryptoHelper.Base64Decode(Request["session_id"]));
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error("获取微信小程序用户登录信息失败:" + ex.Message);
+                        return null;
+                    }
+                }
 
+                return user;
+            }
+        }
         protected override void OnException(ExceptionContext filterContext)
         {
             string error = Utils.GetRandomString("0123456789", 6);
