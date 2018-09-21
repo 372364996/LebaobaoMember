@@ -17,5 +17,14 @@ namespace LebaobaoMember
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_BeginRequest(object sender, EventArgs eventArgs)
+        {
+            if (Request.Url.ToString().StartsWith("http://") && !Request.Url.ToString().Contains("localhost"))
+            {
+                Response.Redirect(Request.Url.ToString().Replace("http://", "https://"));
+            }
+
+        }
     }
 }
