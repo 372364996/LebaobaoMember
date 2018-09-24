@@ -35,17 +35,17 @@ namespace LebaobaoMember.Controllers
             {
                 return Json(new { success = true, errMsg = "session_key参数:null" }, JsonRequestBehavior.AllowGet);
             }
-            string session_id = string.Empty;
+            Users user = null;
             try
             {
-                session_id = GetUser(AppId, session.session_key, model.encryptedData, model.iv);
+                 user = GetUser(AppId, session.session_key, model.encryptedData, model.iv);
             }
             catch (Exception ex)
             {
                 logger.Error("save user:error," + ex.Message);
                 return Json(new { success = false, errMsg = "save user:error," + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = true, errMsg = "save user:ok", session_id = session_id }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, errMsg = "save user:ok", user.OpenId,user.Id,user.Name,user.Phone,user.Address,user.ChildName,user.CanUseCount,user.Sex }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BindPhone(string openid, string phone)
@@ -54,13 +54,13 @@ namespace LebaobaoMember.Controllers
             {
                 return Json(new { success = false, msg = "手机号不可为空！~" }, JsonRequestBehavior.AllowGet);
             }
-            var userList = _db.Users.Where(u => u.Phone == phone && u.UserStatus == UserStatus.Ok).ToList();
-            if (userList.Any())
+            var user= _db.Users.SingleOrDefault(u => u.Phone == phone && u.UserStatus == UserStatus.Ok);
+            if (user!=null)
             {
                 return Json(new { success = false, msg = "该手机号已绑定其他用户，请联系客服" },JsonRequestBehavior.AllowGet);
             }
-            userList = _db.Users.Where(u => u.OpenId == openid && u.UserStatus == UserStatus.Ok).ToList();
-            userList[0].Phone = phone;
+            user = _db.Users.SingleOrDefault(u => u.OpenId == openid && u.UserStatus == UserStatus.Ok);
+            user.Phone = phone;
             _db.SaveChanges();
             return Json(new { success = true, msg = "绑定成功" }, JsonRequestBehavior.AllowGet);
         }
@@ -92,7 +92,7 @@ namespace LebaobaoMember.Controllers
         /// <param name="encryptedDataStr"></param>
         /// <param name="iv"></param>
         /// <returns>unionID</returns>
-        public string GetUser(string appid, string sessionKey, string encryptedDataStr, string iv)
+        public Users GetUser(string appid, string sessionKey, string encryptedDataStr, string iv)
         {
             var encryptedData = WXBizDataCrypt.DecryptData(sessionKey, encryptedDataStr, iv);
             logger.Debug($"用户完整信息：{encryptedData}");
@@ -121,8 +121,9 @@ namespace LebaobaoMember.Controllers
                 u.UserTypeId = 1;
                 _db.Users.Add(u);
                 _db.SaveChanges();
+                return u;
             }
-            return userinfoFull.openId;
+            return user;
         }
 
         class UserInfoFull

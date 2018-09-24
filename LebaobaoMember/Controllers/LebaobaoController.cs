@@ -26,11 +26,11 @@ namespace LebaobaoMember.Controllers
         {
             get
             {
-                if (user == null && !string.IsNullOrEmpty(Request["session_id"]))
+                if (user == null && !string.IsNullOrEmpty(Request["openid"]))
                 {
                     try
                     {
-                        user = _db.Users.SingleOrDefault(u => u.OpenId == CryptoHelper.Base64Decode(Request["session_id"]));
+                        user = _db.Users.SingleOrDefault(u => u.OpenId == CryptoHelper.Base64Decode(Request["openid"]));
                     }
                     catch (Exception ex)
                     {
