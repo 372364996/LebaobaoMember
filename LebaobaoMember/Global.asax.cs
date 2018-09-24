@@ -20,7 +20,7 @@ namespace LebaobaoMember
 
         protected void Application_BeginRequest(object sender, EventArgs eventArgs)
         {
-            if (Request.Url.ToString().StartsWith("http://") && !Request.Url.ToString().Contains("localhost"))
+            if (Request.Url.ToString().StartsWith("http://") && !Request.Url.ToString().Contains("localhost") && !Request.Url.ToString().Contains("mgr"))
             {
                 Response.Redirect(Request.Url.ToString().Replace("http://", "https://"));
             }

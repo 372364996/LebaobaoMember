@@ -185,7 +185,6 @@
     <Content Include="Content\fonts\iconfont.svg" />
     <Content Include="Content\images\aiwrap.png" />
     <Content Include="Content\images\bg.png" />
-    <Content Include="Content\jietuo.mp3" />
     <Content Include="Content\js\xadmin.js" />
     <Content Include="Content\lib\layui\css\layui.css" />
     <Content Include="Content\lib\layui\css\layui.mobile.css" />
@@ -303,7 +302,9 @@
     <Content Include="Content\lib\layui\font\iconfont.eot" />
     <Content Include="Content\lib\layui\font\iconfont.ttf" />
     <Content Include="Content\lib\layui\font\iconfont.woff" />
-    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\api.hdlebaobao.cn.pubxml" />
+    <None Include="Properties\PublishProfiles\mgr.hdlebaobao.cn.pubxml" />
+    <None Include="Properties\PublishProfiles\www.hdlebaobao.cn.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
