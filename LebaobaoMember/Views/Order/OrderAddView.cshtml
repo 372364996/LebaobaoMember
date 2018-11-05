@@ -29,8 +29,8 @@
                 <span class="x-red"></span>来访时间
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="createtime" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input" readonly value="@DateTime.Now">
+                <input type="text" id="createtime" name="createtime" required="" lay-verify="nikename"
+                       autocomplete="off" class="layui-input"  value="@DateTime.Now">
             </div>
         </div>
         <div class="layui-form-item">
@@ -70,19 +70,30 @@
             $.ajax({
                 url: '/order/orderadd/',
                 type: 'POST',
-                data: {userid:@Model.Id},
+                data: {userid:@Model.Id,time:$("#createtime").val()},
                 dataType: 'json',
                 error: function () {
                     alert('error');
                 },
                 success: function (obj) {
-                    layer.alert("添加成功", { icon: 6 }, function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                        window.parent.location.reload();
-                    });
+                    if (obj.success) {
+                        layer.alert("添加成功", { icon: 6 }, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.alert(obj.msg, { icon: 6 }, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            window.parent.location.reload();
+                        });
+                    }
+                   
                 }
             });
 

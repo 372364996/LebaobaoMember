@@ -155,7 +155,7 @@ namespace LebaobaoMember.Controllers
             catch (Exception ex)
             {
                 logger.Debug(ex.Message);
-                return Json(new { success = false });
+                return Json(new { success = false ,msg=ex.Message});
             }
 
         }

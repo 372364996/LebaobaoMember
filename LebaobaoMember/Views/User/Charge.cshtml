@@ -5,17 +5,8 @@
 
 <div class="x-body">
     <form class="layui-form">
-        <input type="hidden" name="userid" value="@Model.Id"/>
-        <div class="layui-form-item">
-            <label for="L_name" class="layui-form-label">
-                <span class="x-red"></span>家长姓名
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_name" name="name" required="" lay-verify=""
-                       autocomplete="off" readonly class="layui-input" value="@Model.Name">
-            </div>
+        <input type="hidden" name="userid" value="@Model.Id" />
 
-        </div>
         <div class="layui-form-item">
             <label for="L_childname" class="layui-form-label">
                 <span class="x-red"></span>孩子姓名
@@ -95,13 +86,23 @@
                     alert('error');
                 },
                 success: function (obj) {
-                    layer.alert("充值成功", { icon: 6 }, function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                        window.parent.location.reload();
-                    });
+                    if (obj.success) {
+                        layer.alert("充值成功", { icon: 6 }, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.alert("充值失败："+obj.msg, { icon: 6 }, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            window.parent.location.reload();
+                        });
+                    }
                 }
             });
 

@@ -6,7 +6,7 @@
 <div class="x-body">
     <form class="layui-form">
         <input type="hidden" value="@(Model == null ? "" : Model.Id.ToString())" name="userid"/>
-        <div class="layui-form-item">
+        @*<div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
                 <span class="x-red">*</span>家长姓名
             </label>
@@ -15,7 +15,7 @@
                        autocomplete="off" value="@(Model == null ? "" : Model.Name)" class="layui-input">
             </div>
 
-        </div>
+        </div>*@
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
                 <span class="x-red">*</span>孩子姓名
@@ -50,17 +50,17 @@
         </div>
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>手机号
+                <span class="x-red"></span>手机号
             </label>
             <div class="layui-input-inline">
-                <input type="number" id="L_username" name="phone" required="" lay-verify="phone|number"
+                <input type="number" id="L_username" name="phone"  lay-verify="phone|number"
                        autocomplete="off" value="@(Model == null ? "" : Model.Phone)" class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">
+            @*<div class="layui-form-mid layui-word-aux">
                 <span class="x-red">*</span>将会成为您唯一的登入名
-            </div>
+            </div>*@
         </div>
-        <div class="layui-form-item">
+        @*<div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
                 <span class="x-red">*</span>地址
             </label>
@@ -68,7 +68,7 @@
                 <input type="text" id="L_username" name="address" required="" lay-verify="nikename"
                        autocomplete="off" value="@(Model == null ? "" : Model.Address)" class="layui-input">
             </div>
-        </div>
+        </div>*@
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
             </label>

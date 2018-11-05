@@ -43,21 +43,21 @@ namespace LebaobaoMember.Controllers
         /// <param name="userid">用户ID</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult OrderAdd(int userid)
+        public JsonResult OrderAdd(int userid,string time)
         {
             try
             {
                 var order = new Orders
                 {
                     UserId = userid,
-                    CreateTime = DateTime.Now
+                    CreateTime =Convert.ToDateTime(time)
                 };
                 _db.Orders.Add(order);
                 var user = _db.Users.Find(userid);
                 if (user.CanUseCount==0)
                 {
                     logger.Debug($"{DateTime.Now}:可使用次数不足");
-                    return Json(new { success = false });
+                    return Json(new { success = false,msg= "可使用次数不足" });
                 }
                 user.LastTime = DateTime.Now;
                 user.CanUseCount--;
@@ -68,7 +68,7 @@ namespace LebaobaoMember.Controllers
             {
 
                 logger.Debug(ex.Message);
-                return Json(new { success = false });
+                return Json(new { success = false,msg=ex.Message });
             }
 
         }
