@@ -14,7 +14,7 @@ $(function () {
             title: title 
             ,content: '<iframe tab-id="'+id+'" frameborder="0" src="'+url+'" scrolling="yes" class="x-iframe"></iframe>'
             ,id: id
-          })
+          });
         }
         ,tabDelete: function(othis){
           //删除指定Tab项
@@ -55,7 +55,7 @@ $(function () {
             });
             return arr;
         }
-    }
+    };
 
     //开启表格多选
     tableCheck.init();
@@ -124,9 +124,8 @@ $(function () {
         
         event.stopPropagation();
          
-    })
-    
-})
+    });
+});
 
 /*弹出层*/
 /*
