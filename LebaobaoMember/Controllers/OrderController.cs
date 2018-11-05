@@ -54,6 +54,11 @@ namespace LebaobaoMember.Controllers
                 };
                 _db.Orders.Add(order);
                 var user = _db.Users.Find(userid);
+                if (user.CanUseCount==0)
+                {
+                    logger.Debug($"{DateTime.Now}:可使用次数不足");
+                    return Json(new { success = false });
+                }
                 user.LastTime = DateTime.Now;
                 user.CanUseCount--;
                 _db.SaveChanges();
