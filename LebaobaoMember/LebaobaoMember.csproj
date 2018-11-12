@@ -336,13 +336,14 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
-    <Content Include="Views\User\UserDel.cshtml" />
+    <Content Include="Views\User\UserStop.cshtml" />
     <Content Include="Views\User\UserAdd.cshtml" />
     <Content Include="Views\User\UserLevel.cshtml" />
     <Content Include="Views\Order\OrderAddView.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\User\Charge.cshtml" />
     <Content Include="Views\User\ChargeList.cshtml" />
+    <Content Include="Views\User\UserDel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

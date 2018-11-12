@@ -17,18 +17,19 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form action="/user/userlist" method="get"  class="layui-form layui-col-md12 x-so">
+        <form action="/user/userlist" method="get" class="layui-form layui-col-md12 x-so">
             @*<input class="layui-input" placeholder="开始日" name="start" id="start">
-            <input class="layui-input" placeholder="截止日" name="end" id="end">*@
+                <input class="layui-input" placeholder="截止日" name="end" id="end">*@
             <input type="text" name="childname" value="@Request["childname"]" placeholder="请输入孩子姓名" autocomplete="off" class="layui-input">
             <input type="text" name="phone" value="@Request["phone"]" placeholder="请输入手机号" autocomplete="off" class="layui-input">
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
     <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="member_stopall()"><i class="layui-icon">&#xe651;</i>批量禁用</button>
         <button class="layui-btn layui-btn-danger" onclick="member_delall()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','/user/useradd',600,400)"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：@ViewBag.UserCount 条</span>
+        <button class="layui-btn" onclick="x_admin_show('添加用户', '/user/useradd', 600, 400)"><i class="layui-icon"></i>添加</button>
+        <span class="x-right" style="line-height: 40px">共有数据：@ViewBag.UserCount 条</span>
     </xblock>
     <table class="layui-table">
         <thead>
@@ -87,6 +88,9 @@
                         <a onclick="x_admin_show('充值', '/user/charge?userid=@item.Id', 600, 400)" title="充值" href="javascript:;">
                             <i class="layui-icon">&#xe65e;</i>
                         </a>
+                        <a title="禁用会员" onclick="member_stop(this, '@item.Id')" href="javascript:;">
+                            <i class="layui-icon">&#xe651;</i>
+                        </a>
                         <a title="删除" onclick="member_del(this, '@item.Id')" href="javascript:;">
                             <i class="layui-icon">&#xe640;</i>
                         </a>
@@ -119,13 +123,13 @@
     });
 
     /*用户-禁用*/
-    function member_del(obj, id) {
+    function member_stop(obj, id) {
         layer.confirm('确认要禁用该用户吗？', function (index) {
             //发异步删除数据
             $.ajax({
-                url: '/user/userdelorreturn/',
+                url: '/user/userstoporreturn/',
                 type: 'POST',
-                data: { id: [id], operation:false},
+                data: { id: [id], operation: false },
                 dataType: 'json',
                 error: function () {
                     alert('error');
@@ -135,20 +139,19 @@
                     layer.msg('已禁用!', { icon: 1, time: 1000 });
                 }
             });
-        
+
         });
-    }
+    };
 
-
-
-    function member_delall(argument) {
+    /*用户-批量禁用*/
+    function member_stopall(argument) {
 
         var data = tableCheck.getData();
 
-        layer.confirm('确认要删除吗？' + data, function (index) {
-            //捉到所有被选中的，发异步进行删除
+        layer.confirm('确认要禁用吗？' + data, function (index) {
+            //捕捉到所有被选中的，发异步进行禁用
             $.ajax({
-                url: '/user/userdelorreturn/',
+                url: '/user/userstoporreturn/',
                 type: 'POST',
                 data: { id: data, operation: false },
                 dataType: 'json',
@@ -160,9 +163,53 @@
                     $(".layui-form-checked").not('.header').parents('tr').remove();
                 }
             });
-           
+
         });
-    }
+    };
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除该用户吗？', function (index) {
+            //发异步删除数据
+            $.ajax({
+                url: '/user/userdelorreturn/',
+                type: 'POST',
+                data: { id: [id], operation: false },
+                dataType: 'json',
+                error: function () {
+                    alert('error');
+                },
+                success: function (res) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已禁用!', { icon: 1, time: 1000 });
+                }
+            });
+
+        });
+    };
+
+    /*用户-批量删除*/
+    function member_delall(argument) {
+
+        var data = tableCheck.getData();
+
+        layer.confirm('确认要删除吗？' + data, function (index) {
+            //捕捉到所有被选中的，发异步进行删除
+            $.ajax({
+                url: '/user/userdelorreturn/',
+                type: 'POST',
+                data: { id: data, operation: false },
+                dataType: 'json',
+                error: function () {
+                    alert('error');
+                },
+                success: function (res) {
+                    layer.msg('已删除', { icon: 1 });
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                }
+            });
+
+        });
+    };
 </script>
 <script>
     var _hmt = _hmt || []; (function () {

@@ -84,12 +84,13 @@ namespace LebaobaoComponents.Domains
         /// </summary>
         public DateTime CreateTime { get; set; }
 
-        public virtual List<Users> Users { get; set; }     
+        public virtual List<Users> Users { get; set; }
     }
 
     public enum UserStatus
     {
         Ok,
-        Disabled
+        Disabled,
+        Delete
     }
 }

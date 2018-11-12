@@ -56,9 +56,16 @@ namespace LebaobaoMember.Controllers
             var model = chargeLogs.OrderByDescending(u => u.Id).ToPagedList(index, 10);
             return View(model);
         }
-        public ActionResult UserDel(string name, int index = 1)
+        public ActionResult UserStop(string name, int index = 1)
         {
             var userList = _db.Users.Where(u => u.UserStatus == UserStatus.Disabled);
+            ViewBag.UserCount = userList.Count();
+            var model = userList.OrderByDescending(u => u.Id).ToPagedList(index, 10);
+            return View(model);
+        }
+        public ActionResult UserDel(string name, int index = 1)
+        {
+            var userList = _db.Users.Where(u => u.UserStatus == UserStatus.Delete);
             ViewBag.UserCount = userList.Count();
             var model = userList.OrderByDescending(u => u.Id).ToPagedList(index, 10);
             return View(model);
@@ -166,7 +173,7 @@ namespace LebaobaoMember.Controllers
         ///  <param name="operation">true 恢复用户，false 禁用用户</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UserDelOrReturn(int[] id, bool operation)
+        public JsonResult UserStopOrReturn(int[] id, bool operation)
         {
             try
             {
@@ -174,6 +181,34 @@ namespace LebaobaoMember.Controllers
                 {
                     var user = _db.Users.Find(item);
                     user.UserStatus = operation ? UserStatus.Ok : UserStatus.Disabled;
+                }
+
+                _db.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Debug(ex.Message);
+                return Json(new { success = false });
+            }
+
+
+        }
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id">用户ID</param>
+        ///  <param name="operation">true 恢复用户，false 删除用户</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UserDelOrReturn(int[] id, bool operation)
+        {
+            try
+            {
+                foreach (var item in id)
+                {
+                    var user = _db.Users.Find(item);
+                    user.UserStatus = operation ? UserStatus.Ok : UserStatus.Delete;
                 }
 
                 _db.SaveChanges();

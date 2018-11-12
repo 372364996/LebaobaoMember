@@ -1,6 +1,6 @@
 ﻿@model PagedList<LebaobaoComponents.Domains.Users>
 @{
-    ViewBag.Title = "用户回收站";
+    ViewBag.Title = "已禁用会员";
 }
 
 <div class="x-nav">
@@ -47,39 +47,39 @@
         <tbody>
          
 
-        @foreach (var item in Model)
-        {
-            <tr>
+                @foreach (var item in Model)
+            {
+                <tr>
 
-                <td>
-                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
-                        <i class="layui-icon">&#xe605;</i>
-                    </div>
-                </td>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.ChildName</td>
-                @if (item.Sex == 0)
-                {
-                    <td>男</td>
-                }
-                else
-                {
-                    <td>女</td>
-                }
-                <td>@item.Phone</td>
-                <td>@item.Address</td>
-                <td>@item.CreateTime.ToShortDateString()</td>
-                <td>@item.LastTime.ToShortDateString()</td>
-                <td class="td-status">
-                    <span class="layui-btn layui-btn-danger layui-btn-mini">已删除</span>
-                </td>
-                <td class="td-manage">
-                    <a title="恢复" onclick="member_return(this,'@item.Id')" href="javascript:;">
-                        <i class="layui-icon">&#xe618;</i>
-                    </a>
-                </td>
-            </tr>}
+                    <td>
+                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
+                            <i class="layui-icon">&#xe605;</i>
+                        </div>
+                    </td>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.ChildName</td>
+                    @if (item.Sex == 0)
+                    {
+                        <td>男</td>
+                    }
+                    else
+                    {
+                        <td>女</td>
+                    }
+                    <td>@item.Phone</td>
+                    <td>@item.Address</td>
+                    <td>@item.CreateTime.ToShortDateString()</td>
+                    <td>@item.LastTime.ToShortDateString()</td>
+                    <td class="td-status">
+                        <span class="layui-btn layui-btn-danger layui-btn-mini">已禁用</span>
+                    </td>
+                    <td class="td-manage">
+                        <a title="恢复" onclick="member_return(this,'@item.Id')" href="javascript:;">
+                            <i class="layui-icon">&#xe618;</i>
+                        </a>
+                    </td>
+                </tr>}
            
     
         </tbody>
@@ -112,7 +112,7 @@
         layer.confirm('确认要恢复吗？', function (index) {
             //发异步恢复数据
             $.ajax({
-                url: '/user/userdelorreturn/',
+                url: '/user/userstoporreturn/',
                 type: 'POST',
                 data: { id: [id], operation: true },
                 dataType: 'json',
@@ -136,7 +136,7 @@
         layer.confirm('确认要恢复吗？' + data, function (index) {
             //捉到所有被选中的，发异步进行恢复
             $.ajax({
-                url: '/user/userdelorreturn/',
+                url: '/user/userstoporreturn/',
                 type: 'POST',
                 data: { id: data, operation: true },
                 dataType: 'json',
