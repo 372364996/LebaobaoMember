@@ -43,21 +43,21 @@ namespace LebaobaoMember.Controllers
         /// <param name="userid">用户ID</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult OrderAdd(int userid,string time)
+        public JsonResult OrderAdd(int userid, string time)
         {
             try
             {
                 var order = new Orders
                 {
                     UserId = userid,
-                    CreateTime =Convert.ToDateTime(time)
+                    CreateTime = Convert.ToDateTime(time)
                 };
                 _db.Orders.Add(order);
                 var user = _db.Users.Find(userid);
-                if (user.CanUseCount==0)
+                if (user.CanUseCount == 0)
                 {
                     logger.Debug($"{DateTime.Now}:可使用次数不足");
-                    return Json(new { success = false,msg= "可使用次数不足" });
+                    return Json(new { success = false, msg = "可使用次数不足" });
                 }
                 user.LastTime = DateTime.Now;
                 user.CanUseCount--;
@@ -68,7 +68,43 @@ namespace LebaobaoMember.Controllers
             {
 
                 logger.Debug(ex.Message);
-                return Json(new { success = false,msg=ex.Message });
+                return Json(new { success = false, msg = ex.Message });
+            }
+
+        }
+
+        /// <summary>
+        /// 删除来访记录
+        /// </summary>
+        /// <param name="orderid">来访记录ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult OrderDelete(int orderid)
+        {
+            try
+            {
+                var order = _db.Orders.Find(orderid);
+                if (order == null)
+                {
+                    return Json(new { success = false, msg = "来访记录不存在" });
+                }
+
+                _db.Orders.Remove(order);
+                var user = _db.Users.Find(order.UserId);
+                if (user == null)
+                {
+                    return Json(new { success = false, msg = "未找到与来访记录匹配的用户" });
+
+                }
+                user.CanUseCount = ++user.CanUseCount;
+                _db.SaveChanges();
+                return Json(new { success = true, msg = "删除成功" });
+            }
+            catch (Exception ex)
+            {
+
+                logger.Debug(ex.Message);
+                return Json(new { success = false, msg = ex.Message });
             }
 
         }
