@@ -344,6 +344,7 @@
     <Content Include="Views\User\Charge.cshtml" />
     <Content Include="Views\User\ChargeList.cshtml" />
     <Content Include="Views\User\UserDel.cshtml" />
+    <Content Include="Views\Order\GetOrderListByUserPhone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

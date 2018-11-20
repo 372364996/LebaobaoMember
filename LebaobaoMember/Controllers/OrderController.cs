@@ -35,7 +35,11 @@ namespace LebaobaoMember.Controllers
             var user = _db.Users.Find(userid);
             return View(user);
         }
-
+        public ActionResult GetOrderListByUserPhone(string phone)
+        {
+            ViewBag.Phone = phone;
+            return View();
+        }
         #region Post请求
         /// <summary>
         /// 添加来访记录
@@ -107,6 +111,12 @@ namespace LebaobaoMember.Controllers
                 return Json(new { success = false, msg = ex.Message });
             }
 
+        }
+        [HttpPost]
+        public JsonResult GetOrderListByUserPhone(string phone, int index)
+        {
+            var list = _db.Orders.Where(o => o.User.Phone.Contains(phone.Trim())).OrderByDescending(o => o.Id).ToPagedList(index, 20);
+            return Json(new { success = true, list });
         }
         #endregion
     }
