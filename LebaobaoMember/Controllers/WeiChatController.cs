@@ -83,7 +83,7 @@ namespace LebaobaoMember.Controllers
                 #region Text
 
                 string content = doc.DocumentElement.SelectSingleNode("Content").InnerText;
-                var user = _db.Users.FirstOrDefault(u => u.Phone == content);
+                var user = _db.Users.SingleOrDefault(u => u.Phone == content.Trim()&&u.UserStatus==UserStatus.Ok);
                 string msg = "";
                 if (user != null)
                 {
@@ -95,7 +95,7 @@ namespace LebaobaoMember.Controllers
 <Content><![CDATA[孩子姓名：{user.ChildName}
 联系方式：{user.Phone}
 剩余次数：{user.CanUseCount}
-<a href='http://baidu.com'>点击查看推拿记录</a>]]></Content>
+<a href='https://www.hdlebaobao.cn/Order/GetOrderListByUserPhone?phone={user.Phone}'>点击查看推拿记录</a>]]></Content>
 </xml>";
                 }
                 else

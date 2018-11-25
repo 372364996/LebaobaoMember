@@ -34,7 +34,7 @@ namespace LebaobaoMember.Controllers
                 userList = userList.Where(u => u.Phone.Contains(phone.Trim()));
             }
             ViewBag.UserCount = userList.Count();
-            var model = userList.OrderByDescending(u => u.Id).ToPagedList(index, 10);
+            var model = userList.OrderByDescending(u => u.LastTime).ToPagedList(index, 10);
             return View(model);
         }
         public ActionResult ChargeList(string childname, string phone, int userid = 0, int index = 1)

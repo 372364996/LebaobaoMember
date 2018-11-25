@@ -37,8 +37,9 @@ namespace LebaobaoMember.Controllers
         }
         public ActionResult GetOrderListByUserPhone(string phone)
         {
-            ViewBag.Phone = phone;
-            return View();
+            var list = _db.Orders.Where(u=>u.User.Phone==phone).OrderByDescending(o => o.CreateTime).ToList();
+
+            return View(list);
         }
         #region Post请求
         /// <summary>
