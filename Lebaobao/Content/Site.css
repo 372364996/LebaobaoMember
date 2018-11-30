@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.menua,
+.menua:hover,
+.menua:focus {
+    color: #555555;
+    background-color: #e7e7e7;
+}

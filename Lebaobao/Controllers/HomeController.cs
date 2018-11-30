@@ -12,6 +12,10 @@ namespace Lebaobao.Controllers
         {
             return View();
         }
+        public ActionResult YuErBaoDian()
+        {
+            return View();
+        }
 
         public ActionResult About()
         {

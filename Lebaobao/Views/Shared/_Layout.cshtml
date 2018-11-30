@@ -1,15 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    <title>@ViewBag.Title - 邯郸乐宝宝小儿推拿</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,22 +18,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("邯郸乐宝宝小儿推拿", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse  pull-right">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    <li>@Html.MenuLink("育儿宝典", "YuErBaoDian", "Home")</li>
+                    <li>@Html.MenuLink("关于我们", "About", "Home")</li>
+                    <li>@Html.MenuLink("联系我们", "Contact", "Home")</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+        <footer class="navbar-fixed-bottom text-center">
+            <hr />
+            <p> 免责声明：本站所有内容来源于互联网。如果本站部分内容侵犯您的权益，请您告知，站长会立即处理。站长邮箱：<a href="mailto:372364996@qq.com?subject=邮件标题&body=邮件内容">372364996@qq.com</a></p>
+            <p>&copy; @DateTime.Now.Year - 邯郸乐宝宝小儿推拿 &nbsp;<a href="http://www.miitbeian.gov.cn/" rel="nofollow">京ICP备16013197号-1</a></p>
         </footer>
     </div>
 
