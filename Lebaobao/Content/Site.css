@@ -33,3 +33,13 @@ textarea {
 p {
     text-indent: 2em;
 }
+/*关于乐宝宝小儿推拿*/
+.about-panel {
+    margin-top: 100px;
+}
+/*首页*/
+.bannar {
+    margin-top: 20px;
+    height: 350px;
+    background-image: url(images/bannar.jpg);
+}
