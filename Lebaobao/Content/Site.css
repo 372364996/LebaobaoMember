@@ -29,3 +29,7 @@ textarea {
     color: #555555;
     background-color: #e7e7e7;
 }
+/*段落缩进*/
+p {
+    text-indent: 2em;
+}
