@@ -37,9 +37,34 @@ p {
 .about-panel {
     margin-top: 100px;
 }
+/*footer置于底部，内容不足时兼容*/
+html, body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+    margin-bottom: -100px;
+}
+
+    .wrap:after {
+        content: "";
+        display: block;
+    }
+
+    .footer, .wrap:after {
+        height: 100px;
+    }
+
+.footer {
+    text-align: center;
+}
 /*首页*/
-.bannar {
-    margin-top: 20px;
-    height: 350px;
-    background-image: url(images/bannar.jpg);
+.index-info {
+    margin-top: 20px
+}
+/*育儿宝典*/
+.yuerbaodian-soon {
+    color: #777777;
+    margin-top: 200px
 }
