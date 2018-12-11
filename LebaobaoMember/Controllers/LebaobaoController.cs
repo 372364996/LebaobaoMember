@@ -42,6 +42,19 @@ namespace LebaobaoMember.Controllers
                 return user;
             }
         }
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var mgr = filterContext.HttpContext.Session["admin"];
+            if (mgr == null && filterContext.HttpContext.Request.Url.ToString().ToLower().IndexOf("/home/login") == -1)
+            {
+                filterContext.HttpContext.Response.Redirect("/home/login?returnUrl=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.ToString()));
+                filterContext.HttpContext.Response.End();
+            }
+            else
+            {
+                base.OnActionExecuting(filterContext);
+            }
+        }
         protected override void OnException(ExceptionContext filterContext)
         {
             string error = Utils.GetRandomString("0123456789", 6);

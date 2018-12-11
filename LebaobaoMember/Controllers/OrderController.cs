@@ -27,7 +27,7 @@ namespace LebaobaoMember.Controllers
                 orderlist = orderlist.Where(o => o.User.Phone.Contains(phone.Trim())).ToList();
             }
             ViewBag.OrderCount = orderlist.Count();
-            var list = orderlist.OrderByDescending(o => o.Id).ToPagedList(index, 20);
+            var list = orderlist.OrderByDescending(o => o.Id).ToPagedList(index, 5);
             return View(list);
         }
         public ActionResult OrderAddView(int userid)

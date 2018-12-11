@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +11,7 @@ namespace LebaobaoMember.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login");
         }
 
         public ActionResult About()
@@ -30,6 +31,19 @@ namespace LebaobaoMember.Controllers
         public ActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public JsonResult Login(string username, string password, string returnUrl)
+        {
+            string msg = "";
+            if (username == "lebaobao" && password == "Dufei.18348728262")
+            {
+                Session["admin"] = username;
+                msg = "登录成功";
+                return Json(new { success = true, msg, returnurl = returnUrl });
+            }
+            msg = "用户名或密码错误";
+            return Json(new { success = false, msg });
         }
     }
 }
