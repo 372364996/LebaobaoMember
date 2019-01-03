@@ -5,6 +5,7 @@
 
 <div class="x-body">
     <form class="layui-form">
+        <input type="hidden" name="userid" value="@Model.Id" />
         <div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
                 <span class="x-red"></span>家长姓名
@@ -26,20 +27,38 @@
         </div>
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
-                <span class="x-red"></span>服务内容
+                <span class="x-red"></span>服务类别
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="type" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input" readonly value="推拿">
+                <select id="ordertype" name="type">
+                    <option value="">请选择</option>
+                    <option value="0">推拿</option>
+                    <option value="1">保健</option>
+                </select>
+                <div class="layui-unselect layui-form-select">
+                    <div class="layui-select-title">
+                        <input type="text" placeholder="订单状态" value="" readonly="" class="layui-input layui-unselect">
+                        <i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd lay-value="" class="layui-select-tips">请选择</dd>
+                        <dd lay-value="0" class="">推拿</dd>
+                        <dd lay-value="1" class="">保健</dd>
+                    </dl>
+                </div>
             </div>
+            @*<div class="layui-input-inline">
+                    <input type="text" id="L_username" name="type" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input" readonly value="推拿">
+                </div>*@
         </div>
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
                 <span class="x-red"></span>来访时间
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="createtime" name="createtime" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input"  value="@DateTime.Now">
+                <input type="text" id="createtime" name="time" required="" lay-verify="nikename"
+                       autocomplete="off" class="layui-input" value="@DateTime.Now">
             </div>
         </div>
         <div class="layui-form-item">
@@ -79,7 +98,7 @@
             $.ajax({
                 url: '/order/orderadd/',
                 type: 'POST',
-                data: {userid:@Model.Id,time:$("#createtime").val()},
+                data: data.field,
                 dataType: 'json',
                 error: function () {
                     alert('error');
@@ -102,7 +121,7 @@
                             window.parent.location.reload();
                         });
                     }
-                   
+
                 }
             });
 
@@ -113,9 +132,9 @@
     });
 </script>
 <script>
-var _hmt = _hmt || []; (function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();</script>
+    var _hmt = _hmt || []; (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>

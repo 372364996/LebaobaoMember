@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LebaobaoComponents.Domains
 {
-   public class Orders
+    public class Orders
     {
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
@@ -15,9 +15,12 @@ namespace LebaobaoComponents.Domains
         public virtual Users User { get; set; }
     }
 
+    /// <summary>
+    /// 订单类别
+    /// </summary>
     public enum OrderType
     {
-        TuiNa,
-        BaoJian
+        TuiNa,//推拿
+        BaoJian//保健
     }
 }

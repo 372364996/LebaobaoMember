@@ -11,7 +11,7 @@ namespace LebaobaoMember.Controllers
     public class OrderController : LebaobaoController
     {
         // GET: Order
-        public ActionResult Index(string childname, string phone, int userid = 0, int index = 1)
+        public ActionResult Index(string childname, string phone, OrderType? ordertype, int userid = 0, int index = 1)
         {
             var orderlist = _db.Orders.ToList();
             if (userid != 0)
@@ -26,6 +26,12 @@ namespace LebaobaoMember.Controllers
             {
                 orderlist = orderlist.Where(o => o.User.Phone.Contains(phone.Trim())).ToList();
             }
+            if (ordertype != null)
+            {
+                orderlist = orderlist.Where(o => o.OrderType == ordertype).ToList();
+            }
+
+
             ViewBag.OrderCount = orderlist.Count();
             var list = orderlist.OrderByDescending(o => o.Id).ToPagedList(index, 5);
             return View(list);
@@ -63,7 +69,7 @@ namespace LebaobaoMember.Controllers
                 };
                 _db.Orders.Add(order);
                 var user = _db.Users.Find(userid);
-             
+
                 if (type == OrderType.TuiNa)
                 {
                     if (user.CanUseCount == 0)
@@ -120,9 +126,9 @@ namespace LebaobaoMember.Controllers
                     return Json(new { success = false, msg = "未找到与来访记录匹配的用户" });
 
                 }
-                if (order.OrderType==OrderType.TuiNa)
+                if (order.OrderType == OrderType.TuiNa)
                 {
-                      user.CanUseCount++;
+                    user.CanUseCount++;
                 }
                 if (order.OrderType == OrderType.BaoJian)
                 {

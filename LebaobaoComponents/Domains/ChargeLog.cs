@@ -28,7 +28,7 @@ namespace LebaobaoComponents.Domains
         public string PayMethod { get; set; }
         [StringLength(200)]
         public string Description { get; set; }
-
+        public OrderType OrderType { get; set; }
         public virtual Users User { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LebaobaoComponents.Domains;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,5 +12,6 @@ namespace LebaobaoMember.Models.PostModels
         public decimal Money { get; set; }
         public int CanUseCount { get; set; }
         public string PayMethod { get; set; }
+        public OrderType OrderType { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace LebaobaoMember.Controllers
             var model = userList.OrderByDescending(u => u.LastTime).ToPagedList(index, 10);
             return View(model);
         }
-        public ActionResult ChargeList(string childname, string phone, int userid = 0, int index = 1)
+        public ActionResult ChargeList(string childname, string phone, OrderType? ordertype, int userid = 0, int index = 1)
         {
             var chargeLogs = _db.ChargeLogs.ToList();
             if (userid != 0)
@@ -51,6 +51,10 @@ namespace LebaobaoMember.Controllers
             if (!string.IsNullOrEmpty(phone))
             {
                 chargeLogs = chargeLogs.Where(u => u.User.Phone.Contains(phone.Trim())).ToList();
+            }
+            if (ordertype != null)
+            {
+                chargeLogs = chargeLogs.Where(u => u.OrderType == ordertype).ToList();
             }
             ViewBag.ChargeCount = chargeLogs.Count();
             var model = chargeLogs.OrderByDescending(u => u.Id).ToPagedList(index, 10);
@@ -151,18 +155,26 @@ namespace LebaobaoMember.Controllers
                     UserId = chargepostmodel.UserId,
                     CanUseCount = chargepostmodel.CanUseCount,
                     PayMethod = chargepostmodel.PayMethod,
+                    OrderType = chargepostmodel.OrderType,
                     CreateTime = DateTime.Now,
                 };
                 _db.ChargeLogs.Add(charge);
                 var user = _db.Users.Find(chargepostmodel.UserId);
-                user.CanUseCount += chargepostmodel.CanUseCount;
+                if (chargepostmodel.OrderType == OrderType.TuiNa)
+                {
+                    user.CanUseCount += chargepostmodel.CanUseCount;
+                }
+                if (chargepostmodel.OrderType == OrderType.BaoJian)
+                {
+                    user.BaoJianCount += chargepostmodel.CanUseCount;
+                }
                 _db.SaveChanges();
                 return Json(new { success = true });
             }
             catch (Exception ex)
             {
                 logger.Debug(ex.Message);
-                return Json(new { success = false ,msg=ex.Message});
+                return Json(new { success = false, msg = ex.Message });
             }
 
         }

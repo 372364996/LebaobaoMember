@@ -19,7 +19,24 @@
     <div class="layui-row">
         <form action="/user/chargelist" method="get" class="layui-form layui-col-md12 x-so">
             <input type="text" name="childname" value="@Request["childname"]" placeholder="请输入孩子姓名" autocomplete="off" class="layui-input">
-            <input type="text" name="phone" value="@Request["phone"]" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            <div class="layui-input-inline">
+                <select id="ordertype" name="ordertype">
+                    <option value="">充值类别</option>
+                    <option value="0">推拿</option>
+                    <option value="1">保健</option>
+                </select>
+                <div class="layui-unselect layui-form-select">
+                    <div class="layui-select-title">
+                        <input type="text" placeholder="@(Request["ordertype"]=="0"?"推拿":"保健")" value="" readonly="" class="layui-input layui-unselect">
+                        <i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd lay-value="" class="layui-select-tips">充值类别</dd>
+                        <dd lay-value="0" class="">推拿</dd>
+                        <dd lay-value="1" class="">保健</dd>
+                    </dl>
+                </div>
+            </div>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
@@ -33,13 +50,12 @@
                     <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
                 </th>
                 <th>ID</th>
-                <th>用户名</th>
                 <th>孩子姓名</th>
-                <th>手机号</th>
                 <th>充值金额</th>
                 <th>充值次数</th>
                 <th>充值时间</th>
                 <th>充值方式</th>
+                <th>充值类别</th>
                 <th>描述</th>
             </tr>
         </thead>
@@ -54,13 +70,21 @@
                         </div>
                     </td>
                     <td>@item.Id</td>
-                    <td>@item.User.Name</td>
                     <td>@item.User.ChildName</td>
-                    <td>@item.User.Phone</td>
                     <td>@item.Money</td>
                     <td>@item.CanUseCount</td>
                     <td>@item.CreateTime.ToString()</td>
                     <td>@item.PayMethod</td>
+                    @if (item.OrderType == LebaobaoComponents.Domains.OrderType.TuiNa)
+                    {
+                        <td>推拿</td>
+
+                    }
+                    @if (item.OrderType == LebaobaoComponents.Domains.OrderType.BaoJian)
+                    {
+                        <td>保健</td>
+
+                    }
                     <td>@item.Description</td>
                 </tr>}
 

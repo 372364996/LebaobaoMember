@@ -94,8 +94,10 @@ namespace Lebaobao.Controllers
 <MsgType><![CDATA[text]]></MsgType>
 <Content><![CDATA[孩子姓名：{user.ChildName}
 联系方式：{user.Phone}
-剩余次数：{user.CanUseCount}
-<a href='https://www.hdlebaobao.cn/Order/GetOrderListByUserPhone?phone={user.Phone}'>点击查看推拿记录</a>]]></Content>
+推拿剩余次数：{user.CanUseCount}
+<a href='https://www.hdlebaobao.cn/Order/GetOrderListByUserPhone?phone={user.Phone}&ordertype=0'>点击查看推拿记录</a>
+保健剩余次数：{user.BaoJianCount}
+<a href='https://www.hdlebaobao.cn/Order/GetOrderListByUserPhone?phone={user.Phone}&ordertype=1'>点击查看保健记录</a>]]></Content>
 </xml>";
                 }
                 else

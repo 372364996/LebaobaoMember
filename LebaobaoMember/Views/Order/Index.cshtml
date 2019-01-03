@@ -20,6 +20,24 @@
         <form action="/order/index" method="get" class="layui-form layui-col-md12 x-so">
             <input type="text" name="childname" value="@Request["childname"]" placeholder="请输入孩子姓名" autocomplete="off" class="layui-input">
             <input type="text" name="phone" value="@Request["phone"]" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            <div class="layui-input-inline">
+                <select id="ordertype" name="ordertype">
+                    <option value="">服务类别</option>
+                    <option value="0">推拿</option>
+                    <option value="1">保健</option>
+                </select>
+                <div class="layui-unselect layui-form-select">
+                    <div class="layui-select-title">
+                        <input type="text" placeholder="订单状态" value="" readonly="" class="layui-input layui-unselect">
+                        <i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd lay-value="" class="layui-select-tips">服务类别</dd>
+                        <dd lay-value="0" class="">推拿</dd>
+                        <dd lay-value="1" class="">保健</dd>
+                    </dl>
+                </div>
+            </div>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
@@ -38,6 +56,7 @@
                 <th>ID</th>
                 <th>孩子姓名</th>
                 <th>手机号</th>
+                <th>服务类别</th>
                 <th>到访时间</th>
                 <th>操作</th>
             </tr>
@@ -45,23 +64,33 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+            <tr>
 
-                    <td>
-                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
-                            <i class="layui-icon">&#xe605;</i>
-                        </div>
-                    </td>
-                    <td>@item.Id</td>
-                    <td>@item.User.ChildName</td>
-                    <td>@item.User.Phone</td>
-                    <td>@item.CreateTime.ToString()</td>
-                    <td>
-                        <a title="删除" onclick="order_del(this, '@item.Id')" href="javascript:;">
-                            <i class="layui-icon">&#xe640;</i>
-                        </a>
-                    </td>
-                </tr>}
+                <td>
+                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@item.Id'>
+                        <i class="layui-icon">&#xe605;</i>
+                    </div>
+                </td>
+                <td>@item.Id</td>
+                <td>@item.User.ChildName</td>
+                <td>@item.User.Phone</td>
+                @if (item.OrderType == LebaobaoComponents.Domains.OrderType.TuiNa)
+                {
+                    <td>推拿</td>
+
+                }
+                @if (item.OrderType == LebaobaoComponents.Domains.OrderType.BaoJian)
+                {
+                    <td>保健</td>
+
+                }
+                <td>@item.CreateTime.ToString()</td>
+                <td>
+                    <a title="删除" onclick="order_del(this, '@item.Id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                    </a>
+                </td>
+            </tr>}
 
         </tbody>
     </table>
