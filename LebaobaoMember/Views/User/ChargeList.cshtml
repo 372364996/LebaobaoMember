@@ -22,20 +22,9 @@
             <div class="layui-input-inline">
                 <select id="ordertype" name="ordertype">
                     <option value="">充值类别</option>
-                    <option value="0">推拿</option>
-                    <option value="1">保健</option>
+                    <option value="0" @(Request["ordertype"] == "0" ? "selected" : "")>推拿</option>
+                    <option value="1" @(Request["ordertype"] == "1" ? "selected" : "")>保健</option>
                 </select>
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title">
-                        <input type="text" placeholder="@(Request["ordertype"]=="0"?"推拿":"保健")" value="" readonly="" class="layui-input layui-unselect">
-                        <i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">充值类别</dd>
-                        <dd lay-value="0" class="">推拿</dd>
-                        <dd lay-value="1" class="">保健</dd>
-                    </dl>
-                </div>
             </div>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
