@@ -37,35 +37,54 @@ namespace LebaobaoMember.Controllers
         }
         public ActionResult GetOrderListByUserPhone(string phone)
         {
-            var list = _db.Orders.Where(u=>u.User.Phone==phone).OrderByDescending(o => o.CreateTime).ToList();
+            var list = _db.Orders.Where(u => u.User.Phone == phone).OrderByDescending(o => o.CreateTime).ToList();
 
             return View(list);
         }
         #region Post请求
+
         /// <summary>
         /// 添加来访记录
         /// </summary>
         /// <param name="userid">用户ID</param>
+        /// <param name="time">来访时间</param>
+        /// <param name="type">服务内容（推拿，保健，等）</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult OrderAdd(int userid, string time)
+        public JsonResult OrderAdd(int userid, string time, OrderType type)
         {
             try
             {
                 var order = new Orders
                 {
                     UserId = userid,
-                    CreateTime = Convert.ToDateTime(time)
+                    CreateTime = Convert.ToDateTime(time),
+                    OrderType = type
                 };
                 _db.Orders.Add(order);
                 var user = _db.Users.Find(userid);
-                if (user.CanUseCount == 0)
+             
+                if (type == OrderType.TuiNa)
                 {
-                    logger.Debug($"{DateTime.Now}:可使用次数不足");
-                    return Json(new { success = false, msg = "可使用次数不足" });
+                    if (user.CanUseCount == 0)
+                    {
+                        logger.Debug($"{DateTime.Now}:可推拿次数不足");
+                        return Json(new { success = false, msg = "可推拿次数不足" });
+                    }
+
+                    user.CanUseCount--;
+                }
+                if (type == OrderType.BaoJian)
+                {
+
+                    if (user.BaoJianCount == 0)
+                    {
+                        logger.Debug($"{DateTime.Now}:可保健次数不足");
+                        return Json(new { success = false, msg = "可保健次数不足" });
+                    }
+                    user.BaoJianCount--;
                 }
                 user.LastTime = DateTime.Now;
-                user.CanUseCount--;
                 _db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -101,7 +120,15 @@ namespace LebaobaoMember.Controllers
                     return Json(new { success = false, msg = "未找到与来访记录匹配的用户" });
 
                 }
-                user.CanUseCount = ++user.CanUseCount;
+                if (order.OrderType==OrderType.TuiNa)
+                {
+                      user.CanUseCount++;
+                }
+                if (order.OrderType == OrderType.BaoJian)
+                {
+                    user.BaoJianCount++;
+                }
+
                 _db.SaveChanges();
                 return Json(new { success = true, msg = "删除成功" });
             }

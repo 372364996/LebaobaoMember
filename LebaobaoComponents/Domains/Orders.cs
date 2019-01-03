@@ -11,6 +11,13 @@ namespace LebaobaoComponents.Domains
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
         public int UserId { get; set; }
+        public OrderType OrderType { get; set; }
         public virtual Users User { get; set; }
+    }
+
+    public enum OrderType
+    {
+        TuiNa,
+        BaoJian
     }
 }

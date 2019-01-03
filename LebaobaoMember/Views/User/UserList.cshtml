@@ -42,7 +42,8 @@
                 <th>孩子姓名</th>
                 <th>性别</th>
                 <th>手机号</th>
-                <th>剩余次数</th>
+                <th>推拿剩余次数</th>
+                <th>保健剩余次数</th>
                 <th>最近到访时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -71,6 +72,7 @@
                     }
                     <td>@item.Phone</td>
                     <td>@item.CanUseCount</td>
+                    <td>@item.BaoJianCount</td>
                     <td>@item.LastTime.ToString()</td>
                     <td class="td-status">
                         <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>

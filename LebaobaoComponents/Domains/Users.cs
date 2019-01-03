@@ -49,9 +49,13 @@ namespace LebaobaoComponents.Domains
         /// </summary>
         public int UserTypeId { get; set; }
         /// <summary>
-        /// 可使用次数
+        /// 可使用推拿次数
         /// </summary>
         public int CanUseCount { get; set; }
+        /// <summary>
+        /// 可使用保健次数
+        /// </summary>
+        public int BaoJianCount { get; set; }
         /// <summary>
         /// 用户状态
         /// </summary>
